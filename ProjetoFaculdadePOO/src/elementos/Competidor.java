@@ -8,7 +8,7 @@ public class Competidor extends ElementoDinamico{
 	private int forca = 0;
 	private int capacidadeMochila;
 	private ArrayList<Fruta> mochila;
-	private int x, y;
+	private int x, y; // Posição do joador
 	
 	public Competidor(String nome) {
 		this.nome = nome;
