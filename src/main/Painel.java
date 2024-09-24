@@ -118,7 +118,7 @@ public class Painel extends JPanel implements Runnable {
 
     // Desenha o jogador e outros gráficos no painel
     public void paintComponent(Graphics g) {
-        super.paintComponent(g); // Chama o método pai para garantir que a tela seja limpa
+        super.paintComponent(g); // Chama o metodo pai para garantir que a tela seja limpa
         Graphics2D g2 = (Graphics2D) g;
         
         g2.setColor(Color.green); // Desenhar a grama em toda tela antes dos outros.

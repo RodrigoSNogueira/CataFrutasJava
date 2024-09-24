@@ -7,13 +7,13 @@ public class KeyHandler implements KeyListener {
     // Variáveis para verificar se as teclas estão pressionadas
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     
-    // Este método é chamado quando uma tecla é pressionada e solta, mas não usado aqui
+    // Este metodo é chamado quando uma tecla é pressionada e solta, mas não usado aqui
     @Override
     public void keyTyped(KeyEvent e) {
-        // TODO Auto-generated method stub (Para implementar caso necessário)
+        // TODO: Para implementar caso necessário
     }
 
-    // Este método é chamado quando uma tecla é pressionada
+    // Este metodo é chamado quando uma tecla é pressionada
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode(); // Obtém o código da tecla pressionada
@@ -33,7 +33,7 @@ public class KeyHandler implements KeyListener {
         }
     }
 
-    // Este método é chamado quando uma tecla é solta
+    // Este metodo é chamado quando uma tecla é solta
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode(); // Obtém o código da tecla solta
