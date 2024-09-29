@@ -32,9 +32,9 @@ public class Painel extends JPanel implements Runnable {
     int playerY = 100;
     int playerSpeed = 4;
     
-    private int quantArvores;
+    private int[] quantArvores;
     private int quantPedras;
-    private int quantFrutas;
+    private int[] quantFrutas;
     ArrayList<int[]> arvores = new ArrayList<>();
     ArrayList<int[]> pedras = new ArrayList<>();
     ArrayList<int[]> frutas = new ArrayList<>();
@@ -42,7 +42,7 @@ public class Painel extends JPanel implements Runnable {
     ArrayList<String> tiposFrutas = new ArrayList<>();
     HashSet<String> ocupados = new HashSet<>(); // Conjunto para rastrear posições ocupadas
 
-    public Painel(int colunas, int linhas, int quantPedras, int quantArvores, int quantFrutas) {
+    public Painel(int linhas, int colunas, int quantPedras, int[] quantArvores, int[] quantFrutas) {
         // Configurações do painel de jogo
     	this.maxScreenCol = colunas;
     	this.maxScreenRow = linhas;
@@ -72,7 +72,7 @@ public class Painel extends JPanel implements Runnable {
         Random random = new Random();
 
         String[] tiposA = {"PéDeMaracuja", "laranjeira", "abacateiro", "coqueiro", "PéDeAcerola", "PéDeAmora", "goiabeira"};
-        for (int i = 0; i < quantArvores; i++) {
+        for (int i = 0; i < quantArvores.length; i++) {
             int x, y;
             do {
                 x = random.nextInt(screenWidth / tileSize) * tileSize;
@@ -94,7 +94,7 @@ public class Painel extends JPanel implements Runnable {
         }
         
         String[] tiposF = {"maracuja", "laranja", "abacate", "coco", "acerola", "amora", "goiaba"};
-        for (int i = 0; i < quantFrutas; i++) {
+        for (int i = 0; i < quantFrutas.length; i++) {
             int x, y;
             do {
                 x = random.nextInt(screenWidth / tileSize) * tileSize;
