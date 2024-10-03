@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CriadorDeTerreno extends JFrame {
     
@@ -76,15 +77,15 @@ public class CriadorDeTerreno extends JFrame {
         ArrayList<JTextField> chaoFields = new ArrayList<>();
 
         for (String fruta : frutas) {
-            frutasPanel.add(new JLabel(fruta + ":"));
-            
-            JTextField arvoresField = new JTextField();
-            arvoresFields.add(arvoresField); 
-            frutasPanel.add(arvoresField);
+            frutasPanel.add(new JLabel(fruta + ":"));         
             
             JTextField chaoField = new JTextField();
             chaoFields.add(chaoField); 
             frutasPanel.add(chaoField);
+            
+            JTextField arvoresField = new JTextField();
+            arvoresFields.add(arvoresField); 
+            frutasPanel.add(arvoresField);
         }
 
         // Painel inferior com botões
@@ -97,67 +98,71 @@ public class CriadorDeTerreno extends JFrame {
         importarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Abrir um arquivo existente
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setDialogTitle("Selecionar Configurações do Terreno");
-                fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                // Opção para escolher o arquivo
-                int userSelection = fileChooser.showOpenDialog(null);
-                if (userSelection == JFileChooser.APPROVE_OPTION) {
-                    File fileToOpen = fileChooser.getSelectedFile();
-                    // Lê as configurações do arquivo
-                    try (BufferedReader reader = new BufferedReader(new FileReader(fileToOpen))) {
-                        String line;
-                        int linhas = 0, colunas = 0, quantPedras = 0;
-                        ArrayList<Integer> quantArvores = new ArrayList<>();
-                        ArrayList<Integer> quantFrutas = new ArrayList<>();
-                        while ((line = reader.readLine()) != null) {
-                            if (line.startsWith("Dimensões:")) {
-                                String[] dimensions = line.split(": ")[1].split(" x ");
-                                linhas = Integer.parseInt(dimensions[0]);
-                                colunas = Integer.parseInt(dimensions[1]);
-                            } else if (line.startsWith("Quantidade de Pedras:")) {
-                                quantPedras = Integer.parseInt(line.split(": ")[1]);
-                            } else if (line.startsWith("Árvores:")) {
-                                String[] trees = line.split(": ")[1].split("; ");
-                                for (String tree : trees) {
-                                    String[] parts = tree.split(": ");
-                                    quantArvores.add(Integer.parseInt(parts[1]));
-                                }
-                            } else if (line.startsWith("Frutas no chão:")) {
-                                String[] fruits = line.split(": ")[1].split("; ");
-                                for (String fruit : fruits) {
-                                    String[] parts = fruit.split(": ");
-                                    quantFrutas.add(Integer.parseInt(parts[1]));
-                                }
+              // Abrir um arquivo existente
+              JFileChooser fileChooser = new JFileChooser();
+              fileChooser.setDialogTitle("Selecionar Configurações do Terreno");
+              fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+              // Opção para escolher o arquivo
+              int userSelection = fileChooser.showOpenDialog(null);
+              if (userSelection == JFileChooser.APPROVE_OPTION) {
+                 File fileToOpen = fileChooser.getSelectedFile();
+                 // Lê as configurações do arquivo
+                 try (BufferedReader reader = new BufferedReader(new FileReader(fileToOpen))) {
+                   String line;
+                   int linhas = 0, colunas = 0, quantPedras = 0;
+                    ArrayList<Integer> quantArvores = new ArrayList<>();
+                    ArrayList<Integer> quantFrutas = new ArrayList<>();
+                    while ((line = reader.readLine()) != null) {
+                        if (line.startsWith("Dimensões:")) {
+                          String[] dimensions = line.split(": ")[1].split(" x ");
+                          linhas = Integer.parseInt(dimensions[0]);
+                          colunas = Integer.parseInt(dimensions[1]);
+                        } 
+                        else if (line.startsWith("Quantidade de Pedras:")) {
+                          quantPedras = Integer.parseInt(line.split(": ")[1]);
+                        } 
+                        else if (line.startsWith("Árvores:")) {
+                            String[] trees = line.split(": ")[1].split("; ");
+                            for (String tree : trees) {
+                                String[] parts = tree.split(": ");
+                                quantArvores.add(Integer.parseInt(parts[1]));
+                            }
+                        } 
+                        else if (line.startsWith("Frutas no chão:")) {
+                            String[] fruits = line.split(": ")[1].split("; ");
+                            for (String fruit : fruits) {
+                                String[] parts = fruit.split(": ");
+                                quantFrutas.add(Integer.parseInt(parts[1]));
                             }
                         }
-                        JFrame window = new JFrame();
-                        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        window.setResizable(false);
-                        window.setTitle("2D Adventure");
-
-                        int[] quantArvoresArray = new int[quantArvores.size()];
-                        for (int i = 0; i < quantArvores.size(); i++) {
-                            quantArvoresArray[i] = quantArvores.get(i);
-                        }
-                        int[] quantFrutasArray = new int[quantFrutas.size()];
-                        for (int i = 0; i < quantFrutas.size(); i++) {
-                            quantFrutasArray[i] = quantFrutas.get(i);
-                        }
-                        Painel painel = new Painel(linhas, colunas, quantPedras, quantArvoresArray, quantFrutasArray);
-                        window.add(painel);
-                        window.pack();
-                        window.setLocationRelativeTo(null);
-                        window.setVisible(true);
-                        painel.startGameThread();
-                    } 
-                    catch (IOException ex) {
-                        JOptionPane.showMessageDialog(null, "Erro ao abrir o arquivo: " + ex.getMessage());
-                    } 
-                    catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Erro ao ler o arquivo: formato inválido.");
                     }
+                    if (quantArvores.size() > 0 && frutas[0].equals("Maracujá")) {
+                        quantArvores.set(0, 0);
+                    }
+                    if (quantFrutas.size() > 0 && frutas[0].equals("Maracujá") && quantFrutas.get(0) < 1) {
+                        quantFrutas.set(0, 1);  
+                    }
+                                      
+                    int[] quantArvoresArray = quantArvores.stream().mapToInt(i -> i).toArray();
+                    int[] quantFrutasArray = quantFrutas.stream().mapToInt(i -> i).toArray();                    
+                    JFrame window = new JFrame();
+                    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    window.setResizable(false);
+                    window.setTitle("2D Adventure");
+
+                    Painel painel = new Painel(linhas, colunas, quantPedras, quantArvoresArray, quantFrutasArray);
+                    window.add(painel);
+                    window.pack();
+                    window.setLocationRelativeTo(null);
+                    window.setVisible(true);
+                    painel.startGameThread();
+                    } 
+                  catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, "Erro ao abrir o arquivo: " + ex.getMessage());
+                  } 
+                  catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Erro ao ler o arquivo: formato inválido.");
+                  }
         }}});
 
         JButton exportarButton = new JButton("Exportar Terreno");
@@ -198,45 +203,39 @@ public class CriadorDeTerreno extends JFrame {
         testarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                	dispose();
-                	// Criação da janela do jogo
+            	try {
+                    dispose();
                     JFrame window = new JFrame();
-                    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Configura a ação de fechar a janela
-                    window.setResizable(false); // Impede que a janela seja redimensionada
-                    window.setTitle("2D Adventure"); // Define o título da janela 
+                    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+                    window.setResizable(false);
+                    window.setTitle("2D Adventure"); 
                     int linhas = Integer.parseInt(dimensaoFieldX.getText().trim());
                     int colunas = Integer.parseInt(dimensaoFieldY.getText().trim());
                     int quantPedras = Integer.parseInt(pedrasField.getText().trim());
-                    int tamanhoArvores = arvoresFields.size();
-                    int tamanhoFrutas = chaoFields.size();
-                    int[] quantArvores = new int[tamanhoArvores];
-                    int[] quantFrutas = new int[tamanhoFrutas];
-                   
-                    for (int i = 0; i < tamanhoArvores; i++) {
+                    int[] quantArvores = new int[arvoresFields.size()];
+                    int[] quantFrutas = new int[chaoFields.size()];
+                    for (int i = 0; i < arvoresFields.size(); i++) {
                         quantArvores[i] = Integer.parseInt(arvoresFields.get(i).getText().trim());
                         if (frutas[i].equals("Maracujá")) {
                             quantArvores[i] = 0; 
                         }
                     }
-                    for (int i = 0; i < tamanhoFrutas; i++) {
+                    for (int i = 0; i < chaoFields.size(); i++) {
                         quantFrutas[i] = Integer.parseInt(chaoFields.get(i).getText().trim());
                         if (frutas[i].equals("Maracujá") && quantFrutas[i] < 1) {
-                            quantFrutas[i] = 1; 
+                            quantFrutas[i] = 1;  
                         }
                     }
-                    
-                    Painel painel = new Painel(linhas,colunas,quantPedras,quantArvores,quantFrutas);
+                                       
+                    Painel painel = new Painel(linhas, colunas, quantPedras, quantArvores, quantFrutas);
                     window.add(painel);
                     window.pack();
                     window.setLocationRelativeTo(null);
                     window.setVisible(true);
                     painel.startGameThread();
-                } 
-                catch (NumberFormatException ex) {
+                } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor, preencha todos os campos corretamente.");
-                } 
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Ocorreu um erro: " + ex.getMessage());
                 }
             }

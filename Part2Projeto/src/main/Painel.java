@@ -20,8 +20,8 @@ public class Painel extends JPanel implements Runnable {
     final int tileSize = originalTileSize * scale; // Tamanho do bloco após escala (48x48)
     int maxScreenCol; // Número máximo de colunas na tela
     int maxScreenRow; // Número máximo de linhas na tela
-    final int screenWidth = tileSize * maxScreenCol; // Largura total da tela (768 pixels)
-    final int screenHeight = tileSize * maxScreenRow; // Altura total da tela (576 pixels)
+    int screenWidth = tileSize * maxScreenCol; // Largura total da tela (768 pixels)
+    int screenHeight = tileSize * maxScreenRow; // Altura total da tela (576 pixels)
 
     // Manipulador de teclado
     KeyHandler keyH = new KeyHandler();
@@ -49,6 +49,9 @@ public class Painel extends JPanel implements Runnable {
         this.quantPedras = quantPedras;
         this.quantArvores = quantArvores;
         this.quantFrutas = quantFrutas;
+        // Agora calculamos screenWidth e screenHeight após a inicialização das colunas e linhas
+        this.screenWidth = tileSize * maxScreenCol;
+        this.screenHeight = tileSize * maxScreenRow;
         this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // Define o tamanho do painel
         this.setBackground(Color.black); // Define a cor de fundo como preta
         this.setDoubleBuffered(true); // Otimiza a renderização dos gráficos
@@ -73,14 +76,16 @@ public class Painel extends JPanel implements Runnable {
 
         String[] tiposA = {"PéDeMaracuja", "laranjeira", "abacateiro", "coqueiro", "PéDeAcerola", "PéDeAmora", "goiabeira"};
         for (int i = 0; i < quantArvores.length; i++) {
-            int x, y;
-            do {
-                x = random.nextInt(screenWidth / tileSize) * tileSize;
-                y = random.nextInt(screenHeight / tileSize) * tileSize;
-            } while (ocupados.contains(posicaoChave(x, y))); // Garante que a posição não esteja ocupada
-            arvores.add(new int[]{x, y});
-            tiposArvores.add(tiposA[random.nextInt(tiposA.length)]);
-            ocupados.add(posicaoChave(x, y)); // Marca a posição como ocupada
+        	for (int j = 0; j < quantArvores[i]; j++) {
+                int x, y;
+                do {
+                   x = random.nextInt(screenWidth / tileSize) * tileSize;
+                   y = random.nextInt(screenHeight / tileSize) * tileSize;
+                } while (ocupados.contains(posicaoChave(x, y))); // Garante que a posição não esteja ocupada
+                arvores.add(new int[]{x, y});
+                tiposArvores.add(tiposA[i]); // Usa o índice para selecionar o tipo correto de árvore
+                ocupados.add(posicaoChave(x, y)); 
+            }
         }
 
         for (int i = 0; i < quantPedras; i++) {
@@ -95,14 +100,16 @@ public class Painel extends JPanel implements Runnable {
         
         String[] tiposF = {"maracuja", "laranja", "abacate", "coco", "acerola", "amora", "goiaba"};
         for (int i = 0; i < quantFrutas.length; i++) {
-            int x, y;
-            do {
-                x = random.nextInt(screenWidth / tileSize) * tileSize;
-                y = random.nextInt(screenHeight / tileSize) * tileSize;
-            } while (ocupados.contains(posicaoChave(x, y))); // Garante que a posição não esteja ocupada
-            frutas.add(new int[]{x, y});
-            tiposFrutas.add(tiposF[random.nextInt(tiposF.length)]); // Escolhe um tipo aleatório
-            ocupados.add(posicaoChave(x, y)); // Marca a posição como ocupada
+        	for (int j = 0; j < quantFrutas[i]; j++) {
+                int x, y;
+                do {
+                   x = random.nextInt(screenWidth / tileSize) * tileSize;
+                   y = random.nextInt(screenHeight / tileSize) * tileSize;
+                } while (ocupados.contains(posicaoChave(x, y))); // Garante que a posição não esteja ocupada
+                frutas.add(new int[]{x, y});
+                tiposFrutas.add(tiposF[i]); // Usa o índice para selecionar o tipo correto de fruta
+                ocupados.add(posicaoChave(x, y)); 
+            }
         }
     }
 
