@@ -181,16 +181,16 @@ public class Painel extends JPanel implements Runnable {
             
             switch (tipoArvore) {
                 case "PéDeMaracuja":
-                    g2.setColor(Color.darkGray); 
+                    g2.setColor(Color.yellow); 
                     break;
                 case "laranjeira":
                     g2.setColor(Color.orange); 
                     break;
                 case "abacateiro":
-                    g2.setColor(Color.green); 
+                    g2.setColor(Color.blue); 
                     break;
                 case "coqueiro":
-                    g2.setColor(Color.cyan); 
+                    g2.setColor(Color.DARK_GRAY); 
                     break;
                 case "PéDeAcerola":
                     g2.setColor(Color.red); 
@@ -218,7 +218,7 @@ public class Painel extends JPanel implements Runnable {
                     g2.setColor(Color.orange);
                     break;
                 case "abacate":
-                    g2.setColor(Color.green);
+                    g2.setColor(Color.blue);
                     break;
                 case "coco":
                     g2.setColor(Color.DARK_GRAY);
