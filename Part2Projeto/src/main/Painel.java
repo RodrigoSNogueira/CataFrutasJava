@@ -42,9 +42,9 @@ public class Painel extends JPanel implements Runnable {
     ArrayList<String> tiposFrutas = new ArrayList<>();
     HashSet<String> ocupados = new HashSet<>(); // Conjunto para rastrear posições ocupadas
 
-    public Painel(int linhas, int colunas, int quantPedras, int[] quantArvores, int[] quantFrutas) {
+    public Painel(int linhas, int quantPedras, int[] quantArvores, int[] quantFrutas) {
         // Configurações do painel de jogo
-    	this.maxScreenCol = colunas;
+    	this.maxScreenCol = linhas;
     	this.maxScreenRow = linhas;
         this.quantPedras = quantPedras;
         this.quantArvores = quantArvores;
