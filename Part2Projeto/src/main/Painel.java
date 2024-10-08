@@ -74,7 +74,7 @@ public class Painel extends JPanel implements Runnable {
     public void gerarTerreno() {
         Random random = new Random();
 
-        String[] tiposA = {"PéDeMaracuja", "laranjeira", "abacateiro", "coqueiro", "PéDeAcerola", "PéDeAmora", "goiabeira"};
+        String[] tiposA = {"maracuja", "laranjeira", "abacateiro", "coqueiro", "PéDeAcerola", "PéDeAmora", "goiabeira"}; // O maracuja aqui está no mesmo campo, mas não é sua árvore, mas a quantidade que vai nascer no chão
         for (int i = 0; i < quantArvores.length; i++) {
         	for (int j = 0; j < quantArvores[i]; j++) {
                 int x, y;
@@ -98,7 +98,7 @@ public class Painel extends JPanel implements Runnable {
             ocupados.add(posicaoChave(x, y)); // Marca a posição como ocupada
         }
         
-        String[] tiposF = {"maracuja", "laranja", "abacate", "coco", "acerola", "amora", "goiaba"};
+        String[] tiposF = {"totalMaracuja", "laranja", "abacate", "coco", "acerola", "amora", "goiaba"}; // O totalMaracuja guarda o valor total de maracujás no jogo
         for (int i = 0; i < quantFrutas.length; i++) {
         	for (int j = 0; j < quantFrutas[i]; j++) {
                 int x, y;
@@ -174,15 +174,16 @@ public class Painel extends JPanel implements Runnable {
         for (int[] pos : pedras) {
             g2.fillRect(pos[0], pos[1], tileSize, tileSize);
         }
-        
+   
         for (int i = 0; i < arvores.size(); i++) {
             int[] pos = arvores.get(i);
             String tipoArvore = tiposArvores.get(i);
-            
+            if(tipoArvore == "maracuja") { // Implementação dos maracujás que nascem no chão
+            	g2.setColor(Color.yellow);
+            	g2.fillOval(pos[0], pos[1], tileSize, tileSize);
+            }
+            else {
             switch (tipoArvore) {
-                case "PéDeMaracuja":
-                    g2.setColor(Color.yellow); 
-                    break;
                 case "laranjeira":
                     g2.setColor(Color.orange); 
                     break;
@@ -201,19 +202,21 @@ public class Painel extends JPanel implements Runnable {
                 case "goiabeira":
                     g2.setColor(Color.pink); 
                     break;
-                default:
-                    g2.setColor(Color.black); // Cor padrão para árvores desconhecidas
+                default: 
+                	break;
             }
-            g2.fillRect(pos[0], pos[1], tileSize, tileSize); 
-        }
+            	g2.fillRect(pos[0], pos[1], tileSize, tileSize); 
+          }
+        }    
         
         for (int i = 0; i < frutas.size(); i++) {
             int[] pos = frutas.get(i);
             String tipoFruta = tiposFrutas.get(i);
+            if(tipoFruta == "totalMaracuja") {
+            	continue;
+            }
+            else {
             switch (tipoFruta) {
-                case "maracuja":
-                    g2.setColor(Color.yellow);
-                    break;
                 case "laranja":
                     g2.setColor(Color.orange);
                     break;
@@ -232,9 +235,12 @@ public class Painel extends JPanel implements Runnable {
                 case "goiaba":
                     g2.setColor(Color.pink);
                     break;
+                default: 
+                	break;
             }
             g2.fillOval(pos[0], pos[1], tileSize, tileSize); 
-        }
+          }
+        }    
         
        // Desenha o jogador como um retângulo branco
         g2.setColor(Color.white);

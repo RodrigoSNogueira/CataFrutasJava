@@ -19,18 +19,19 @@ public class CriadorDeTerreno extends JFrame {
     
     public CriadorDeTerreno() {
         setTitle("Criador de Terreno");
-        setSize(600, 450);
+        setSize(700, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Painel principal
         JPanel painelPrincipal = new JPanel();
         painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
+        painelPrincipal.setBackground(new Color(240, 240, 240)); // Fundo mais suave
         add(painelPrincipal);
 
         // Configurações
         JPanel configPanel = new JPanel(new GridBagLayout());
         configPanel.setBorder(BorderFactory.createTitledBorder("CONFIGURAÇÕES:"));
+        configPanel.setBackground(new Color(255, 255, 255));
         painelPrincipal.add(configPanel);
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -44,12 +45,14 @@ public class CriadorDeTerreno extends JFrame {
         configPanel.add(new JLabel("Dimensão:"), gbc);
         gbc.gridx = 1;
         JTextField dimensaoFieldX = new JTextField(10);
+        dimensaoFieldX.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         configPanel.add(dimensaoFieldX, gbc);
 
         gbc.gridx = 2; 
         configPanel.add(new JLabel("Capacidade da Mochila:"), gbc);
         gbc.gridx = 3;
         JTextField mochilaField = new JTextField(10);
+        mochilaField.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         configPanel.add(mochilaField, gbc);
 
         gbc.gridx = 0;
@@ -57,41 +60,58 @@ public class CriadorDeTerreno extends JFrame {
         configPanel.add(new JLabel("Quantidade de Pedras:"), gbc);
         gbc.gridx = 1;
         JTextField pedrasField = new JTextField(10);
+        pedrasField.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         configPanel.add(pedrasField, gbc);
 
         gbc.gridx = 2;
         configPanel.add(new JLabel("Chance de bichadas (%):"), gbc);
         gbc.gridx = 3;
         JTextField bichadasField = new JTextField(10);
+        bichadasField.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         configPanel.add(bichadasField, gbc);
 
-        JPanel frutasPanel = new JPanel(new GridLayout(7, 5, 3, 3));
-        frutasPanel.setBorder(BorderFactory.createTitledBorder("FRUTAS E ÁRVORES: "));
+        JPanel frutasPanel = new JPanel(new GridBagLayout());
+        frutasPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "FRUTAS E ÁRVORES: "));
+        frutasPanel.setBackground(new Color(255, 255, 255));
         painelPrincipal.add(frutasPanel);
+        GridBagConstraints gbcFrutas = new GridBagConstraints();
+        gbcFrutas.insets = new Insets(5, 5, 5, 5);  
+        gbcFrutas.fill = GridBagConstraints.BOTH;       
+        gbcFrutas.weightx = 1.0;
 
         // Frutas e campos
         String[] frutas = {"maracuja", "laranja", "abacate", "coco", "acerola", "amora", "goiaba"};
-
         ArrayList<JTextField> arvoresFields = new ArrayList<>();
         ArrayList<JTextField> chaoFields = new ArrayList<>();
 
-        for (String fruta : frutas) {
-            frutasPanel.add(new JLabel(fruta + ":"));         
+        for (int i = 0; i < frutas.length; i++) {
+            // Label da fruta
+            gbcFrutas.gridx = 0;
+            gbcFrutas.gridy = i;
+            frutasPanel.add(new JLabel(frutas[i] + ":"), gbcFrutas);
             
-            JTextField chaoField = new JTextField();
+            // Campo de frutas no chão
+            gbcFrutas.gridx = 1;
+            JTextField chaoField = new JTextField(10);
+            chaoField.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
             chaoFields.add(chaoField); 
-            frutasPanel.add(chaoField);
-            
-            JTextField arvoresField = new JTextField();
+            frutasPanel.add(chaoField, gbcFrutas);
+
+            // Campo de árvores
+            gbcFrutas.gridx = 2;
+            JTextField arvoresField = new JTextField(10);
+            arvoresField.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
             arvoresFields.add(arvoresField); 
-            frutasPanel.add(arvoresField);
+            frutasPanel.add(arvoresField, gbcFrutas);
         }
 
         // Painel inferior com botões
         JPanel botoesPanel = new JPanel();
+        botoesPanel.setBackground(new Color(240, 240, 240));
         painelPrincipal.add(botoesPanel);
 
         JButton importarButton = new JButton("Importar Terreno");
+        estiloBotao(importarButton);
         botoesPanel.add(importarButton);
         
         importarButton.addActionListener(new ActionListener() {
@@ -134,8 +154,15 @@ public class CriadorDeTerreno extends JFrame {
                             int arvores = Integer.parseInt(partes[1].trim());
                             int frutasNoChao = Integer.parseInt(partes[2].trim());
                             if (fruta.equals("maracuja")) { // Para o maracujá, o primeiro valor representa a quantidade total no jogo e o segundo valor quantas nascem no início
-                                quantArvores.add(0);
-                                quantFrutas.add(Math.max(1, frutasNoChao)); // Deve ter pelo menos 1 fruta no chão
+                                quantArvores.add(frutasNoChao);
+                                if (arvores < 1) {
+                                	arvores = 1;
+                                }
+                                quantFrutas.add(arvores); 
+                                if (arvores < frutasNoChao) {  
+                                    JOptionPane.showMessageDialog(null, "Erro: A quantidade total de maracujás não pode ser menor que a quantidade que nasce no chão.");
+                                    return;
+                                }
                             } 
                             else {
                                 quantArvores.add(arvores);
@@ -168,6 +195,7 @@ public class CriadorDeTerreno extends JFrame {
         }}});
 
         JButton exportarButton = new JButton("Exportar Terreno");
+        estiloBotao(exportarButton);
         botoesPanel.add(exportarButton);
         
         exportarButton.addActionListener(new ActionListener() {
@@ -186,8 +214,14 @@ public class CriadorDeTerreno extends JFrame {
                     writer.write("pedras " + pedrasField.getText().trim());
                     writer.newLine();
                     for (int i = 0; i < frutas.length; i++) {
-                         writer.write(frutas[i] + " " + arvoresFields.get(i).getText().trim() + " " + chaoFields.get(i).getText().trim());
-                         writer.newLine();
+                         if (frutas[i] == "maracuja") {
+                        	 writer.write(frutas[i] + " " + chaoFields.get(i).getText().trim() + " " + arvoresFields.get(i).getText().trim()); 
+                             writer.newLine();
+                         }
+                         else {
+                        	 writer.write(frutas[i] + " " + arvoresFields.get(i).getText().trim() + " " + chaoFields.get(i).getText().trim());
+                        	 writer.newLine();
+                         }                    
                     }
                     writer.write("bichadas " + bichadasField.getText().trim());
                     writer.newLine();
@@ -203,6 +237,7 @@ public class CriadorDeTerreno extends JFrame {
         });
 
         JButton testarButton = new JButton("Testar Terreno");
+        estiloBotao(testarButton);
         botoesPanel.add(testarButton);
 
         testarButton.addActionListener(new ActionListener() {
@@ -232,17 +267,21 @@ public class CriadorDeTerreno extends JFrame {
                         	quantFrutas[i] = Integer.parseInt(chaoFields.get(i).getText().trim());
                         }
                     }
-                    
+                    // Aqui requer uma lógica um pouco diferente, pois o maracujá no menu tem um comportamente diferente
                     for (int i = 0; i < frutas.length; i++) {
                         if (frutas[i].equals("maracuja")) {
-                            int totalMaracuja = Integer.parseInt(arvoresFields.get(i).getText().trim());
-                            int inicialNoChao = Integer.parseInt(chaoFields.get(i).getText().trim());
-                            if (inicialNoChao < 1) {
-                                inicialNoChao = 1;
+                            int totalMaracuja = Integer.parseInt(chaoFields.get(i).getText().trim());
+                            int inicialNoChao = Integer.parseInt(arvoresFields.get(i).getText().trim());
+                            if (totalMaracuja < 1) {
+                                totalMaracuja = 1;
                             }
-                            quantArvores[i] = totalMaracuja; 
-                            quantFrutas[i] = inicialNoChao;   
-                            break;  
+                            if (totalMaracuja < inicialNoChao) {
+                            	JOptionPane.showMessageDialog(null, "Erro: A quantidade de maracujá que nasce no chão não pode ser maior que o total de maracujá");
+                                return; 
+                            }
+                            quantArvores[i] = inicialNoChao; 
+                            quantFrutas[i] = totalMaracuja;   
+                            break;   
                         }
                     }
                                        
@@ -260,6 +299,17 @@ public class CriadorDeTerreno extends JFrame {
             }
         });
     };
+    
+    private void estiloBotao(JButton botao) {
+        botao.setBackground(new Color(100, 149, 237)); // Azul suave
+        botao.setForeground(Color.WHITE); 
+        botao.setFocusPainted(false);
+        botao.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Espaço interno do botão
+        botao.setFont(new Font("Arial", Font.BOLD, 14)); // Fonte moderna
+        botao.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botao.setContentAreaFilled(false);
+        botao.setOpaque(true);
+    }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
