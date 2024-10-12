@@ -8,7 +8,7 @@ public class ElementoEstatico {
 	public ElementoEstatico(int QuantPedra) {
 		this.pedra = QuantPedra;
 	}
-	
+
 	public void Arvore(String tipoArvore) {
 		if(tipoArvore == this.tipoArvore[0]) { // Laranjeira
 			Frutas fruta = new Frutas(1);
@@ -33,5 +33,10 @@ public class ElementoEstatico {
 	public Object getTipo() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public boolean isTemFruta() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

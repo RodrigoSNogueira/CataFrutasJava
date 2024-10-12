@@ -17,7 +17,7 @@ public class Floresta {
 	public void inicializarFloresta() {
 		for (int i = 0; i < tamanho; i++) {
 			for (int j = 0; j < tamanho; j++) {
-				matriz[i][j] = new ElementoEstatico("grama", false); // Grana sen fruta
+				// matriz[i][j] = new ElementoEstatico("grama", false); // Grana sen fruta
 			}
 		}
 		alocarElementos();
@@ -27,17 +27,17 @@ public class Floresta {
 		 for (int i = 0; i < tamanho / 4; i++) {
 	         int x = random.nextInt(tamanho);
 	         int y = random.nextInt(tamanho);
-	         matriz[x][y] = new ElementoEstatico("pedra", false);
+	        // matriz[x][y] = new ElementoEstatico("pedra", false);
 	     }
 		 for (int i = 0; i < tamanho / 3; i++) {
 	         int x = random.nextInt(tamanho);
 	         int y = random.nextInt(tamanho);
-	         matriz[x][y] = new ElementoEstatico("arvore", true);
+	        // matriz[x][y] = new ElementoEstatico("arvore", true);
 	     }
 		 for (int i = 0; i < tamanho / 2; i++) {
 	         int x = random.nextInt(tamanho);
 	         int y = random.nextInt(tamanho);
-	         matriz[x][y] = new ElementoEstatico("grama", true); // Grama com frutas
+	        // matriz[x][y] = new ElementoEstatico("grama", true); // Grama com frutas
 	     }
 	}
 	
