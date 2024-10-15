@@ -27,9 +27,9 @@ public class Jogador extends ElementoDinamico{
 	public void consumirFruta() {
 		if(!mochila.isEmpty()) {
 			Frutas fruta = mochila.remove(0);
-			fruta.efeitoFruta(fruta.getNome(forca)); // Errado o valor passo no getNome
-			System.out.println(this.nome + " consumiu uma fruta " + fruta.getNome(forca)); // Errado o valor passo no getNome
-			if (fruta.getNome(forca) == "coco") { // Errado o valor passo no getNome
+			fruta.efeitoFruta(fruta.getNome()); 
+			System.out.println(this.nome + " consumiu uma fruta " + fruta.getNome()); 
+			if (fruta.getNome().equals("coco")) { 
 				this.frutaDeForcaUsada = true;
 			}
 		}
@@ -40,8 +40,8 @@ public class Jogador extends ElementoDinamico{
 	
 	public void catarFruta(Frutas fruta) {
 		mochila.add(fruta);
-		System.out.println(this.nome + " coletou uma fruta " + fruta.getNome(forca)); // Errado o valor passo no getNome
-		if (fruta.equals("ouro")) {
+		System.out.println(this.nome + " coletou uma fruta " + fruta.getNome()); 
+		if (fruta.getNome().equals("maracuja")) {
 			this.frutasOuro++;
 		}
 	}
@@ -72,7 +72,7 @@ public class Jogador extends ElementoDinamico{
 				}
 				else if(elemento.isTemFruta()) {
 					moverPara(novaX, novaY, 1);
-                   // catarFruta(new Frutas("Fruta", 0));
+                    catarFruta(new Frutas("Fruta", 0));
 				}
 			}
 		}
@@ -105,7 +105,7 @@ public class Jogador extends ElementoDinamico{
 	public void perderFrutas(int quantidade) {
         for (int i = 0; i < Math.min(quantidade, mochila.size()); i++) {
             Frutas frutaDerrubada = mochila.remove(mochila.size() - 1); // Remove frutas da mochila
-            System.out.println(nome + " perdeu uma fruta: " + frutas.getNome(forca)); // Errado o valor passo no getNome
+            System.out.println(nome + " perdeu uma fruta: " + frutas.getNome()); 
         }
     }
 	

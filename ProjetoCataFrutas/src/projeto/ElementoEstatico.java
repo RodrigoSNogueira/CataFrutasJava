@@ -1,42 +1,59 @@
 package projeto;
 
 public class ElementoEstatico {
-	private int pedra;
-	private int grama = 0;
+	private String tipo;
+    private boolean temFruta;
+    private Frutas fruta;
 	private String[] tipoArvore = {"laranjeira", "abacateiro", "coqueiro", "PéDeAcerola", "PéDeAmora", "goiabeira"};
 	
-	public ElementoEstatico(int QuantPedra) {
-		this.pedra = QuantPedra;
+	public ElementoEstatico(String tipo, boolean temFruta) {
+		this.tipo = tipo;
+        this.temFruta = temFruta;
+        if (isArvore(tipo)) {
+            alocarFruta(tipo);
+        }
+	}
+	
+	private boolean isArvore(String tipo) {
+		for (String arvore : tipoArvore) {
+			if(arvore.equals(tipo)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-	public void Arvore(String tipoArvore) {
+	public void alocarFruta(String tipoArvore) {
+		int chanceBichada = 0; // Ver como definir esse valor, como forme o passado pelo usuário, para que seja o mesmo para frutas que nascem no chão e nas árvores
 		if(tipoArvore == this.tipoArvore[0]) { // Laranjeira
-			Frutas fruta = new Frutas(1);
+			Frutas fruta = new Frutas("laranja", chanceBichada);
 		}
 		else if(tipoArvore == this.tipoArvore[1]) { // Abacateiro
-			Frutas fruta = new Frutas(2);
+			Frutas fruta = new Frutas("abacate", chanceBichada);
 		}
 		else if(tipoArvore == this.tipoArvore[2]) { // Coqueiro
-			Frutas fruta = new Frutas(3);
+			Frutas fruta = new Frutas("coco", chanceBichada);
 		}
 		else if(tipoArvore == this.tipoArvore[3]) { // Pé de acerola
-			Frutas fruta = new Frutas(4);
+			Frutas fruta = new Frutas("acerola", chanceBichada);
 		}
 		else if(tipoArvore == this.tipoArvore[4]) { // Pé de amora
-			Frutas fruta = new Frutas(5);
+			Frutas fruta = new Frutas("amora", chanceBichada);
 		}
 		else { // Goiabera
-			Frutas fruta = new Frutas(6);
+			Frutas fruta = new Frutas("goiaba", chanceBichada);
 		}
 	}
 
-	public Object getTipo() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getTipo() {
+		return tipo;
 	}
 
 	public boolean isTemFruta() {
-		// TODO Auto-generated method stub
-		return false;
+		return temFruta;
+	}
+	
+	public Frutas getFruta() {
+		return fruta;
 	}
 }

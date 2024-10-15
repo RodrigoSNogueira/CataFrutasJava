@@ -3,11 +3,12 @@ package projeto;
 import java.util.Random;
 
 public class Frutas extends ElementoDinamico{
+	private String nome;
 	private int chanceBichada;
-	private String[] frutas = {"maracuja", "laranja", "abacate", "coco", "acerola", "amora", "goiaba"};
 	private Random random;
 	
-	public Frutas(int bichada) {
+	public Frutas(String nome,int bichada) {
+		this.nome = nome;
 		this.chanceBichada = bichada;
 		this.random = new Random();
 	}
@@ -18,27 +19,22 @@ public class Frutas extends ElementoDinamico{
     }
 	
 	public void efeitoFruta(String fruta) {
-		if(fruta == this.frutas[1]) { // Laranja, anula o efeito de uma bichada
-			
+		switch (nome) {
+		case "laranja": // Laranja, anula o efeito de uma bichada		
+			break;
+		case "abacate": // Abacate, dobra o número de pontos de movimento
+			break;
+		case "coco": // Coco, dobra a força do jogador
+			break; 
 		}
-		else if(fruta == this.frutas[2]) { // Abacate, dobra o número de pontos de movimento
-			
-		}
-		else if(fruta == this.frutas[3]) { // Coco, dobra o número de força do jogador
-			
-		}		
 	}
 	
 	@Override
 	public void mover(int novaX, int novaY) {
-		// TODO Auto-generated method stub
 		
 	}
 	
-	 public String getNome(int i) {
-		 if (i >= 0 && i < frutas.length) {
-	            return frutas[i];
-	     }
-		 return "Fruta desconhecida";
-	    }
+	 public String getNome() {
+		 return nome;
+    }
 }
