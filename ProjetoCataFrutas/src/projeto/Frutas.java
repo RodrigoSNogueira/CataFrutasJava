@@ -4,18 +4,16 @@ import java.util.Random;
 
 public class Frutas extends ElementoDinamico{
 	private String nome;
-	private int chanceBichada;
 	private Random random;
 	
-	public Frutas(String nome,int bichada) {
+	public Frutas(String nome) {
 		this.nome = nome;
-		this.chanceBichada = bichada;
 		this.random = new Random();
 	}
 	
 	public boolean isBichada() {
         double chance = random.nextDouble() * 100;
-        return chance <= chanceBichada;
+        return chance <= ConfiguraçãoGlobal.getChanceBichada();
     }
 	
 	public void efeitoFruta(String fruta) {

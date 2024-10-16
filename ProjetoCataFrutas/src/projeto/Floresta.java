@@ -48,7 +48,7 @@ public class Floresta {
 	        return null; 
 	    }
 
-	    private boolean posicaoValida(int x, int y) {
+	    public boolean posicaoValida(int x, int y) {
 	        return x >= 0 && x < tamanho && y >= 0 && y < tamanho;
 	    }
 

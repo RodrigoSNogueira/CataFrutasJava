@@ -24,25 +24,25 @@ public class ElementoEstatico {
 	}
 
 	public void alocarFruta(String tipoArvore) {
-		int chanceBichada = 0; // Ver como definir esse valor, como forme o passado pelo usuário, para que seja o mesmo para frutas que nascem no chão e nas árvores
 		if(tipoArvore == this.tipoArvore[0]) { // Laranjeira
-			Frutas fruta = new Frutas("laranja", chanceBichada);
+			Frutas fruta = new Frutas("laranja");
 		}
 		else if(tipoArvore == this.tipoArvore[1]) { // Abacateiro
-			Frutas fruta = new Frutas("abacate", chanceBichada);
+			Frutas fruta = new Frutas("abacate");
 		}
 		else if(tipoArvore == this.tipoArvore[2]) { // Coqueiro
-			Frutas fruta = new Frutas("coco", chanceBichada);
+			Frutas fruta = new Frutas("coco");
 		}
 		else if(tipoArvore == this.tipoArvore[3]) { // Pé de acerola
-			Frutas fruta = new Frutas("acerola", chanceBichada);
+			Frutas fruta = new Frutas("acerola");
 		}
 		else if(tipoArvore == this.tipoArvore[4]) { // Pé de amora
-			Frutas fruta = new Frutas("amora", chanceBichada);
+			Frutas fruta = new Frutas("amora");
 		}
-		else { // Goiabera
-			Frutas fruta = new Frutas("goiaba", chanceBichada);
+		else if(tipoArvore == this.tipoArvore[5]){ // Goiabera
+			Frutas fruta = new Frutas("goiaba");
 		}
+		else System.out.println("Essa árvore não existe");
 	}
 
 	public String getTipo() {
@@ -52,6 +52,10 @@ public class ElementoEstatico {
 	public boolean isTemFruta() {
 		return temFruta;
 	}
+	
+	public void setTemFruta(boolean temFruta) {
+        this.temFruta = temFruta; 
+    }
 	
 	public Frutas getFruta() {
 		return fruta;
